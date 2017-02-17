@@ -1,0 +1,36 @@
+# A simple makefile
+
+CC=g++
+CXXFLAGS=-std=c++11
+LDFLAGS=
+
+# if passed "type=opt" at command-line, compile with "-O3" flag (otherwise use "-g" for debugging)
+
+ifeq ($(type),opt)
+  CPPFLAGS += -O3
+  LDFLAGS += -O3
+else
+  CPPFLAGS += -g
+  LDFLAGS += -g
+endif
+
+all: pathfinder moviespan extension
+
+pathfinder: ActorGraph.o MovieHashTable.o Actor.o Movie.o
+
+moviespan: ActorGraph.o MovieHashTable.o Actor.o Movie.o DisjointSet.o
+
+extension: ActorGraph.o MovieHashTable.o Actor.o Movie.o
+
+ActorGraph.o:  ActorGraph.hpp MovieHashTable.hpp Actor.hpp
+
+MovieHashTable.o: MovieHashTable.hpp Movie.hpp 	
+
+Actor.o: Actor.hpp
+
+Movie.o: Movie.hpp
+
+
+clean:
+	rm -f all *.o core*
+
